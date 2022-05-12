@@ -25,23 +25,28 @@ class AnchorPointProvider implements EditorConfigProvider {
 
             if (jQuery(editorValue).length > 0) {
                 const anchorId = prompt(`Anchor Id`);
-                wrapper = wrapper.replace('ANCHOR', anchorId);
 
-                if (jQuery(editorValue).length === 1) {
-                    wrapper = editorValue.replace(jQuery(editorValue)[0].id, anchorId);
-                } else {
-                    wrapper = wrapper.replace('VALUE', editorValue);
+                if (anchorId) {
+                    wrapper = wrapper.replace('ANCHOR', anchorId);
+
+                    if (jQuery(editorValue).length === 1) {
+                        wrapper = editorValue.replace(jQuery(editorValue)[0].id, anchorId);
+                    } else {
+                        wrapper = wrapper.replace('VALUE', editorValue);
+                    }
+
+                    editor.value(wrapper);
+                    editor.trigger('change');
                 }
-
-                editor.value(wrapper);
-                editor.trigger('change');
             } else if (jQuery(editorValue)) {
                 const anchorId = prompt(`Anchor Id`);
-                wrapper = wrapper.replace('ANCHOR', anchorId);
-                wrapper = wrapper.replace('VALUE', editorValue);
+                if (anchorId) {
+                    wrapper = wrapper.replace('ANCHOR', anchorId);
+                    wrapper = wrapper.replace('VALUE', editorValue);
 
-                editor.value(wrapper);
-                editor.trigger('change');
+                    editor.value(wrapper);
+                    editor.trigger('change');
+                }
             } else {
                 alert('Please enter some content.');
             }
