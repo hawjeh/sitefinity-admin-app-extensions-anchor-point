@@ -1,5 +1,13 @@
 # Sitefinity CMS Admin App extensions development kit with samples
 
+## Anchor Point Extension
+
+AdminApp editor - Rich Text Editor uses in Page and Content Type add an Anchor Point extension.
+
+1. Update config.json to use AnchorPoint extension
+2. Auto wrap the content block with
+```<div id="{ANCHOR_POINT_ID}">{CONTENT}</div>```
+
 #### Table of content
 * [Overview](#overview)
 * [Backward compatibility](#backward-compatibility)
