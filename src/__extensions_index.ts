@@ -1,6 +1,6 @@
 // import { GridExtenderModule } from "./grid-extender";
 // import { CustomFieldsModule } from "./custom-fields";
-// import { CommandsExtenderModule } from "./commands-extender";
+import { CommandsExtenderModule } from "./commands-extender";
 import { EditorExtenderModule } from "./editor-extender";
 // import { ItemExtenderModule } from "./item-extender";
 // import { ThemeModule } from "./theme";
@@ -12,7 +12,7 @@ declare var sitefinityExtensionsStore: SitefinityExtensionStore;
 
 // sitefinityExtensionsStore.addExtensionModule(GridExtenderModule);
 // sitefinityExtensionsStore.addExtensionModule(CustomFieldsModule);
-// sitefinityExtensionsStore.addExtensionModule(CommandsExtenderModule);
+sitefinityExtensionsStore.addExtensionModule(CommandsExtenderModule);
 sitefinityExtensionsStore.addExtensionModule(EditorExtenderModule);
 // sitefinityExtensionsStore.addExtensionModule(ItemExtenderModule);
 // sitefinityExtensionsStore.addExtensionModule(ThemeModule);

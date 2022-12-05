@@ -4,6 +4,7 @@ import { ClassProvider, Injectable } from "@angular/core";
 import { PrintPreviewCommand } from "./print-preview.command";
 import { ListSelectedItemsCommand } from "./list-selected-items.command";
 import { NotificationCommand } from './notification.command';
+import { PledgeListSelectedItemsCommand } from "./pledge-selected-items.command";
 
 /**
  * The category name in which to place the custom commands.
@@ -49,6 +50,13 @@ export const NOTIFICATION_COMMAND: CommandModel = {
     ordinal: CUSTOM_COMMAND_BASE.ordinal + 1
 };
 
+export const PLEDGE_LIST_SELECTED_ITEMS_COMMAND: CommandModel = {
+    name: "List",
+    title: "Pledge Counter",
+    category: CUSTOM_CATEGORY_NAME,
+    ordinal: 0
+};
+
 /**
  * The command provider provides the necessary commands back to the AdminApp.
  */
@@ -65,9 +73,12 @@ class DynamicItemIndexCommandProvider implements CommandProvider {
         // the commands to be returned
         const commands: CommandModel[] = [];
 
-        this.addPrintPreviewCommand(data, commands);
-        this.addListSelectedItemsCommand(data, commands);
-        this.addNotificationCommand(data, commands);
+        // this.addPrintPreviewCommand(data, commands);
+        // this.addListSelectedItemsCommand(data, commands);
+        // this.addNotificationCommand(data, commands);
+        if(data.dataItem.metadata.setName === "pledges") {
+            this.addPledgeListSelectedItemsCommand(data, commands);
+        }
 
         // return an observable here, because generating the actions might be a time consuming operation
         return of(commands);
@@ -129,6 +140,18 @@ class DynamicItemIndexCommandProvider implements CommandProvider {
             };
 
             commands.push(notificationCommand);
+        }
+    }
+
+    private addPledgeListSelectedItemsCommand(data: CommandsData, commands: CommandModel[]) {
+        if (data.target === CommandsTarget.Bulk) {
+            const bulkCommand = Object.assign({}, PLEDGE_LIST_SELECTED_ITEMS_COMMAND);
+
+            bulkCommand.token = {
+                type: PledgeListSelectedItemsCommand
+            };
+
+            commands.push(bulkCommand);
         }
     }
 }
