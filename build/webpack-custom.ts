@@ -5,7 +5,7 @@ export default function (config: Configuration) {
     const mainBundlePath = config.entry["main"];
 
     config.entry = {
-        "sge_custom.bundle": mainBundlePath
+        "sample.extensions.bundle": mainBundlePath
     };
 
     config.plugins.push(...[
