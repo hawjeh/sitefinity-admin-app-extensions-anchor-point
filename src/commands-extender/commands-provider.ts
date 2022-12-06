@@ -2,9 +2,9 @@ import { CommandProvider, CommandsData, COMMANDS_TOKEN, CommandsTarget, CommandM
 import { Observable, of } from "rxjs";
 import { ClassProvider, Injectable } from "@angular/core";
 import { PrintPreviewCommand } from "./print-preview.command";
+import { PledgeCounterCommand } from "./pledge-counter.command";
 import { ListSelectedItemsCommand } from "./list-selected-items.command";
 import { NotificationCommand } from './notification.command';
-import { PledgeListSelectedItemsCommand } from "./pledge-selected-items.command";
 
 /**
  * The category name in which to place the custom commands.
@@ -19,6 +19,13 @@ const CUSTOM_COMMAND_BASE: CommandModel = {
     name: "Custom",
     title: "Print preview",
     ordinal: -1,
+    category: CUSTOM_CATEGORY_NAME
+};
+
+const PLEDGE_COUNTER_COMMAND_BASE: CommandModel = {
+    name: "Total_Pledge",
+    title: "Total Pledge",
+    ordinal: CUSTOM_COMMAND_BASE.ordinal + 1,
     category: CUSTOM_CATEGORY_NAME
 };
 
@@ -50,13 +57,6 @@ export const NOTIFICATION_COMMAND: CommandModel = {
     ordinal: CUSTOM_COMMAND_BASE.ordinal + 1
 };
 
-export const PLEDGE_LIST_SELECTED_ITEMS_COMMAND: CommandModel = {
-    name: "List",
-    title: "Pledge Counter",
-    category: CUSTOM_CATEGORY_NAME,
-    ordinal: 0
-};
-
 /**
  * The command provider provides the necessary commands back to the AdminApp.
  */
@@ -77,7 +77,7 @@ class DynamicItemIndexCommandProvider implements CommandProvider {
         // this.addListSelectedItemsCommand(data, commands);
         // this.addNotificationCommand(data, commands);
         if(data.dataItem.metadata.setName === "pledges") {
-            this.addPledgeListSelectedItemsCommand(data, commands);
+            this.addPledgeCounterPreviewCommand(data, commands);
         }
 
         // return an observable here, because generating the actions might be a time consuming operation
@@ -112,6 +112,21 @@ class DynamicItemIndexCommandProvider implements CommandProvider {
         }
     }
 
+    private addPledgeCounterPreviewCommand(data: CommandsData, commands: CommandModel[]) {
+        // we wish to inject this command only in the list view
+        if (data.target === CommandsTarget.List) {
+            const previewCommand = Object.assign({}, PLEDGE_COUNTER_COMMAND_BASE);
+            previewCommand.category = "Default";
+
+            // assign an injection token or just the class
+            previewCommand.token = {
+                type: PledgeCounterCommand,
+            };
+
+            commands.push(previewCommand);
+        }
+    }
+
     private addListSelectedItemsCommand(data: CommandsData, commands: CommandModel[]) {
         if (data.target === CommandsTarget.Bulk) {
             const bulkCommand = Object.assign({}, LIST_SELECTED_ITEMS_COMMAND);
@@ -140,18 +155,6 @@ class DynamicItemIndexCommandProvider implements CommandProvider {
             };
 
             commands.push(notificationCommand);
-        }
-    }
-
-    private addPledgeListSelectedItemsCommand(data: CommandsData, commands: CommandModel[]) {
-        if (data.target === CommandsTarget.Bulk) {
-            const bulkCommand = Object.assign({}, PLEDGE_LIST_SELECTED_ITEMS_COMMAND);
-
-            bulkCommand.token = {
-                type: PledgeListSelectedItemsCommand
-            };
-
-            commands.push(bulkCommand);
         }
     }
 }
