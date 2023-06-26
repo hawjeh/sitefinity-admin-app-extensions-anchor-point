@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 // import { WORD_COUNT_PROVIDER } from "./word-count/word-count-provider";
+import { GRAMMARLY_PROVIDER } from "./grammarly/grammarly-provider";
 import { ANCHOR_POINT_PROVIDER } from "./anchor-point/anchor-point-provider";
 // import { VIDEO_TOOLBAR_ITEM_PROVIDER } from "./sitefinity-videos/sitefinity-videos-toolbar-item-provider";
 // import { SWITCH_TEXT_DIRECTION_PROVIDER } from "./switch-text-direction/switch-text-direction.provider";
@@ -21,6 +22,7 @@ import { ANCHOR_POINT_PROVIDER } from "./anchor-point/anchor-point-provider";
         // EDITOR_SPELL_CHECK_PROVIDER,
         // EDIT_MENU_SPELL_CHECK_PROVIDER,
         // IMAGE_TOOLBAR_ITEM_PROVIDER,
+        GRAMMARLY_PROVIDER,
         ANCHOR_POINT_PROVIDER
     ],
     imports: [
